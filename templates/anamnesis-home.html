@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Anamnesis</title>
+	<link type="text/css" rel="stylesheet" href="/static/main.css" />
+	<link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+
+<body onload="document.getElementById('opener').click">
+<!-- onload="document.mnemotor.url.focus()"  TO PUT BACK--> 
+
+  <a href="/anamnesis" class="main-title">
+    Anamnesis
+  </a>
+
+  <div class="login-area">
+      <a class="login-link" href="/login">login</a>
+      |
+      <a class="login-link" href="/signup">signup</a>
+    			<audio style="display:none" id="boam">
+					 <source src="/static/boam.wav"
+					         type='audio/wav'>
+					 <p>Your user agent does not support the HTML5 Audio element.</p>
+				</audio>
+  </div>
+
+<span >
+ 	{% for url in urlstodisplay%}
+ 		<a href="{{url}}" target="_blank" ></a>
+ 		<script type="text/javascript"> if (!e.target.hasAttribute("target")) {
+			e.preventDefault();     
+    		e.target.setAttribute("target", "_blank");
+    		e.target.click();
+    		return;
+			}
+</script>
+ 	{% endfor %}
+</span>
+
+
+<!-- // <script type="text/javascript"> 
+// 	{% for url in urlstodisplay%}
+// 		window.open('{{url}}', '_blank');
+// 	{% endfor %}
+//  </script>-->
+
+<!-- new mnem -->
+<form method="post" name="mnemotor" id="mnemotor">
+		
+			<!-- URL -->
+
+			<input onfocus="if (this.value=='enter url') this.value = ''" type="text" name="url" value="enter url"></input>
+			<!-- <input name="urlbox"  type="text" value="enter url"> -->
+
+			<!-- TIMER -->
+			<select name="timequantity"> 
+				
+				{% for e in range(1,6)%}
+				<option>{{e}}</option>
+				{% endfor %}
+
+				<option selected>7</option>
+
+				{% for e in range(8,31)%}
+				<option>{{e}}</option>
+				{% endfor %}
+			</select>
+
+			<select name="timeunit">
+				<option>hours</option> 
+				<option selected>days</option> 
+				<option>months</option> 
+			</select>
+	
+
+<!-- 
+			<span>category</span>
+			<select name="category"> 
+				<option selected>{{category}}</option> 
+				<option>Article</option> 
+				<option>Video</option> 
+				<option>Fun</option>
+			</select> 
+	 -->
+
+	 		<!-- VALIDATION -->
+			<input type="submit" value="Add" style="margin-bottom:10px" onclick="document.getElementById('boam').play();">
+			<!-- nécessite d'implementer le rechargement asynchrone -->
+			</input>
+			<p class="error">{{error}}</p>
+			<span class="congrats">{{congrats}}</span>
+	</form>
+
+
+<!-- list mnems -->
+
+<div id="content">
+	<table id="hor-minimalist-a" summary="Mnems">
+		<thead>
+			<tr>
+				<th scope="col" width="500px">URL</th>
+				<th scope="col" width="200px">Timer</th>
+				<th scope="col" width="200px">Next time</th>
+				<th scope="col" width="200px">Date created</th>
+			</tr>
+		</thead>
+
+		<tbody>
+
+	<!--DEBUT DE LA BOUCLE-->
+
+			{% for e in listmnems%}
+			<tr>
+				<td><a href="{{e.url}}" class="urlmnem" target="_blank">{{e.url}}</a></td>
+				<td>{{e.timer}}</td>
+				<td>{% if e.nexttime.minute < 10 %}
+					{{e.nexttime.date().strftime('%B %d, %Y')}} - {{e.nexttime.hour}}:0{{e.nexttime.minute}}
+					{% endif %}
+					{% if e.nexttime.minute > 9 %}
+					{{e.nexttime.date().strftime('%B %d, %Y')}} - {{e.nexttime.hour}}:{{e.nexttime.minute}}
+					{% endif %}</td>
+				<td>{{e.dtcreated.date().strftime('%B %d, %Y')}}</td>
+			</tr>
+			{% endfor %}
+
+	<!--FIN DE LA BOUCLE-->
+
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript" src="static/js/jquery-2.0.1.min.js"></script> 
+<script type="text/javascript">
+		$(document).ready(oddlines())
+		$("tr").odd().css("background-color", "black")
+</script>
+</body>
+
+</html>
+
