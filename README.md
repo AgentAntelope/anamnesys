@@ -8,7 +8,6 @@ Anamnesis open your past bookmarks and allow you to discuss between your past yo
 *** Inspired by the awesome Browse Periodically https://addons.mozilla.org/fr/firefox/addon/browse-periodically/ firefox addon
 
 
-Config:
 - Google App Engine
 - Python 2.7
 - Jinja2 
